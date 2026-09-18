@@ -7,12 +7,9 @@ This module provides guardrails for AutoGen AgentChat tools:
 - Streaming TOCTOU protection (buffer-verify-emit)
 
 AutoGen is optional; importing this module does not require the dependency.
-
-Install with: pip install "tenuo[autogen]".
 """
-
 from __future__ import annotations
-from .optional_deps import missing_optional_dependency
+
 
 import functools
 import importlib.util

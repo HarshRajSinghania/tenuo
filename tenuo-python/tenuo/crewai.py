@@ -77,10 +77,8 @@ Usage (Tier 2 - Warrant with PoP):
 
     guard.register()
 """
-from .optional_deps import missing_optional_dependency
-
-
 from __future__ import annotations
+
 
 import logging
 from dataclasses import dataclass, field
@@ -682,7 +680,7 @@ class CrewAIGuard:
         """
         if not HOOKS_AVAILABLE:
             raise ImportError(
-                "CrewAI hooks API not available. Requires crewai>=1.5. Install with: pip install "tenuo[crewai]""
+                "CrewAI hooks API not available. Requires crewai>=1.5. Install with: pip install 'crewai>=1.5'"
             )
 
         if self._registered_hook is not None:
@@ -2179,13 +2177,13 @@ class _GuardedCrewImpl:
         try:
             from crewai import Crew  # type: ignore[import-not-found,import-untyped]
         except ImportError:
-            raise ImportError(missing_optional_dependency("CrewAI", "crewai"))
+            raise ImportError("crewai is required for GuardedCrew. Install with: pip install crewai")
 
         if not HOOKS_AVAILABLE:
             raise ImportError(
                 "CrewAI hooks API not available. "
                 "GuardedCrew requires crewai>=1.5. "
-                "Install with: pip install "tenuo[crewai]""
+                "Install with: pip install 'crewai>=1.5'"
             )
 
         # Build guards for all agents

@@ -82,10 +82,8 @@ OpenAI Agents SDK Integration:
 
     For Tier 2 (warrant-based), use create_tier2_guardrail().
 """
-from .optional_deps import missing_optional_dependency
-
-
 from __future__ import annotations
+
 
 import hashlib
 import json
@@ -2146,7 +2144,7 @@ class GuardrailResult:
         Returns a proper GuardrailFunctionOutput if SDK is installed,
         otherwise returns self (which has the same interface).
 
-        Requires: pip install "tenuo[openai]"
+        Requires: uv pip install openai-agents
         """
         if _GuardrailFunctionOutput is not None:
             return _GuardrailFunctionOutput(

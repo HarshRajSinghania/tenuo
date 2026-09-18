@@ -1,6 +1,6 @@
 ---
 name: tenuo-audit
-description: Audit, explain, and review tenuo warrants for security engineers and CISOs. Use this skill when someone wants to understand what a warrant authorizes, assess blast radius, review delegation chains, check for security risks, or audit agent permissions. Also trigger when a security engineer asks about agent authorization, access control review, permission auditing, or wants warrants explained in IAM/RBAC/OAuth terms.
+description: Audit, explain, or compare existing Tenuo warrants and delegation chains. Use for review-only requests about effective authority, blast radius, chain validity, or authorization risk. Do not use to implement enforcement in an application or tool boundary (use tenuo-agent-authorization).
 ---
 
 # Tenuo Warrant Auditor
@@ -40,7 +40,8 @@ Scan the codebase for tenuo usage:
 Ask: **"Before we start — are you a developer building agent integrations, a platform engineer setting up infrastructure, or a security engineer reviewing permissions?"**
 
 - **Security engineer / CISO** → continue with this skill
-- **Developer** → suggest `/tenuo-warrant` instead ("That skill helps you create warrants from scratch — it'll walk you through what your agent needs")
+- **Developer creating or delegating authority** → suggest `tenuo-warrant`.
+- **Developer integrating enforcement into an application or tool boundary** → suggest `tenuo-agent-authorization`.
 - **Platform engineer** → continue, adjusting framing for infrastructure review
 
 ### Phase 3: Source Selection

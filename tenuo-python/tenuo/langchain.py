@@ -28,6 +28,8 @@ Example:
 
 For multi-agent graphs with automatic delegation, see tenuo.langgraph.
 """
+from .optional_deps import missing_optional_dependency
+
 
 from __future__ import annotations
 
@@ -390,7 +392,7 @@ def guard_tools(
         guard_agent: Wraps entire executor with built-in authorization
     """
     if not LANGCHAIN_AVAILABLE:
-        raise ImportError("LangChain is required for guard_tools(). Install with: uv pip install langchain-core")
+        raise ImportError(missing_optional_dependency("LangChain", "langchain"))
 
     if issuer_key is not None:
         from .config import configure, is_configured
@@ -532,7 +534,7 @@ def guard_agent(
         For LangGraph StateGraph agents, use tenuo.langgraph.TenuoToolNode instead.
     """
     if not LANGCHAIN_AVAILABLE:
-        raise ImportError("LangChain is required for guard_agent(). Install with: uv pip install langchain-core")
+        raise ImportError(missing_optional_dependency("LangChain", "langchain"))
 
     # Configure if key provided
     if issuer_key is not None:
@@ -624,7 +626,7 @@ class _TenuoAgentExecutor:
         try:
             from langchain.agents import AgentExecutor  # type: ignore[import-not-found,attr-defined]
         except ImportError:
-            raise ImportError("langchain is required for _TenuoAgentExecutor")
+            raise ImportError(missing_optional_dependency("LangChain", "langchain"))
 
         self._inner = AgentExecutor(agent=agent, tools=tools, **kwargs)
         self._capabilities = capabilities
@@ -803,7 +805,7 @@ class SecureAgentExecutor:
         **kwargs: Any,
     ):
         if not LANGCHAIN_AVAILABLE:
-            raise ImportError("LangChain not installed. Run: uv pip install langchain-core")
+            raise ImportError(missing_optional_dependency("LangChain", "langchain"))
 
         from langchain.agents import AgentExecutor  # type: ignore[import-not-found,attr-defined]
 

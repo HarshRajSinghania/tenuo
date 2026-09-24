@@ -1,7 +1,8 @@
-"""Parameterized coverage for optional-integration installation errors.
+"""Coverage for optional-integration installation errors.
 
-Does not uninstall packages. Checks source and helper output for stable
-fragments: exception type, integration name, and extra name.
+Source checks only confirm the helper/extra is referenced on the missing-dep
+path's neighboring raise sites. Runtime checks build ImportError via the
+helper so fragments are asserted without scanning whole files.
 """
 
 from __future__ import annotations
@@ -48,8 +49,9 @@ CASES = [
 def test_integration_source_names_tenuo_extra(integration: str, extra: str, path: Path) -> None:
     text = path.read_text(encoding="utf-8")
     has_literal = f"tenuo[{extra}]" in text
-    has_helper = f"missing_optional_dependency(" in text and f'\"{extra}\"' in text
-    assert has_literal or has_helper
+    helper_call = f'missing_optional_dependency("{integration}", "{extra}")'
+    has_helper = helper_call in text
+    assert has_literal or has_helper, f"{path} missing extra {extra} or helper call"
     assert extra in text
 
 
@@ -76,3 +78,9 @@ def test_missing_optional_dependency_message_fragments(integration: str, extra: 
     assert extra in str(err)
     assert extra_install_command(extra) in str(err)
     assert f"tenuo[{extra}]" in str(err)
+
+
+def test_langgraph_middleware_message_keeps_langchain_requirement() -> None:
+    text = (ROOT / "langgraph.py").read_text(encoding="utf-8")
+    assert "langchain>=1.0" in text
+    assert 'missing_optional_dependency("LangGraph", "langgraph")' in text
